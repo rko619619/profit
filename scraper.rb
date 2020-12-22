@@ -3,6 +3,7 @@ require 'nokogiri'
 require 'time'
 
 class Scraper
+  attr_reader :doc, :num
   def initialize(doc, num)
     @doc = doc
     @num = num
@@ -46,6 +47,7 @@ class Scraper
 end
 
 class Books
+  attr_reader :books, :threads
   URL = 'http://loveread.ec/index_book.php?id_genre=1&p='.freeze
 
   def initialize
@@ -65,8 +67,8 @@ class Books
   end
 
   def get_information_page(doc)
-    (1..6).each do |number|
-      book = Scraper.new(doc, number).information
+    (1..6).each do |num|
+      book = Scraper.new(doc, num).information
       @books << Writer.new(book).write
     end
     @books

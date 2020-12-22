@@ -1,85 +1,98 @@
 require 'curb'
 require 'nokogiri'
-require 'csv'
 require 'time'
 
-url = 'http://loveread.ec/index_book.php?id_genre=1&p='
-
-class Download
-  def self.get_html(url, page_html)
-    Nokogiri::HTML(Curl::Easy.http_get("#{url}#{page_html}").body_str)
+class Scraper
+  URL = 'http://loveread.ec/index_book.php?id_genre=1&p='.freeze
+  def initialize(doc, num)
+    @doc = doc
+    @num = num
   end
 
-  def self.get_name(document, number)
+  def information
+    [
+      name(@doc, @num),
+      genre(@doc, @num),
+      author(@doc, @num),
+      description(@doc, @num),
+      publishing(@doc, @num),
+      image(@doc, @num)
+    ]
+  end
+
+  def name(document, number)
     document.xpath("//table[#{number}][@class='table_gl']//div[@class='td_top_text']").text
   end
 
-  def self.get_genre(document, number)
+  def genre(document, number)
     document.xpath("//table[#{number}][@class='table_gl']//tr[@class='td_top_color']//td[1]//p").text
   end
 
-  def self.get_author(document, number)
+  def author(document, number)
     document.xpath("//table[#{number}][@class='table_gl']//td[@class='span_str']//a[2]//strong").text
   end
 
-  def self.get_description(document, number)
+  def description(document, number)
     document.xpath("//table[#{number}][@class='table_gl']//tr[3][@class='td_center_color']//td/p").text
   end
 
-  def self.get_publishing(document, number)
+  def publishing(document, number)
     publishing = document.xpath("//table[#{number}][@class='table_gl']//td[@class='span_str']//p/text()").text
     publishing.delete("\t\r").strip!.squeeze("\n").split("\n")
   end
 
-  def self.get_image(document, number)
+  def image(document, number)
     'http://loveread.ec/' + document.xpath("//table[#{number}][@class='table_gl']//img[@class='margin-right_8']").attr('src')
   end
 end
 
-class Scraper
-  @@threads = []
-  @@mutex = Mutex.new
-  @@books = []
+class Books
+  URL = 'http://loveread.ec/index_book.php?id_genre=1&p='.freeze
 
-  def self.initialize
+  def initialize
+    @threads = []
     @books = []
   end
 
-  def get_information(url)
-    (1..2).each do |page|
-      @@threads << Thread.new(page) do
-        document = Download.get_html(url, page)
-        Scraper.get_information_page(document)
+  def get_information
+    (1..10).each do |page|
+      @threads << Thread.new(page) do
+        doc = Nokogiri::HTML(Curl::Easy.http_get("#{URL}#{page}").body_str)
+        get_information_page(doc)
       end
-      @@threads.each(&:join)
+      @threads.each(&:join)
     end
-    @@books
+    @books
   end
 
-  def self.get_information_page(document)
+  def get_information_page(doc)
     (1..6).each do |number|
-      name = Download.get_name(document, number)
-      genre = Download.get_genre(document, number)
-      author = Download.get_author(document, number)
-      description = Download.get_description(document, number)
-      publishing = Download.get_publishing(document, number)
-      image = Download.get_image(document, number)
-      @@books << Scraper.write(name, genre, author, description, publishing, image)
+      book = Scraper.new(doc, number).information
+      @books << Writer.new(book).write
     end
+    @books
+  end
+end
+
+class Writer
+  def initialize(book)
+    @book = book
+    @mutex = Mutex.new
   end
 
-  def self.write(name, genre, author, description, publishing, image)
-    @@mutex.synchronize do
+  def write
+    @mutex.synchronize do
       [
-        name, genre, author,
-        publishing[0], publishing[1],
-        publishing[2], publishing[3],
-        publishing[4], publishing[5],
-        description, image
+        @book[0], @book[1], @book[2],
+        @book[4][0], @book[4][1],
+        @book[4][2], @book[4][3],
+        @book[4][4], @book[4][5],
+        @book[3], @book[5]
       ]
     end
   end
 end
 
-start = Scraper.new
-start.get_information(url)
+name = Books.new
+inf = name.get_information
+print(inf)

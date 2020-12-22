@@ -3,7 +3,6 @@ require 'nokogiri'
 require 'time'
 
 class Scraper
-  URL = 'http://loveread.ec/index_book.php?id_genre=1&p='.freeze
   def initialize(doc, num)
     @doc = doc
     @num = num

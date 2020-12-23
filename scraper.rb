@@ -10,14 +10,18 @@ class Scraper
   end
 
   def information
-    [
-      name(@doc, @num),
-      genre(@doc, @num),
-      author(@doc, @num),
-      description(@doc, @num),
-      publishing(@doc, @num),
-      image(@doc, @num)
-    ]
+    {
+      name: name(doc, num),
+      genre: genre(doc, num),
+      author: author(doc, num),
+      description: description(doc, num),
+      house: publishing_house(doc, num),
+      isbn: publishing_isbn(doc, num),
+      pages: publishing_pages(doc, num),
+      circulation: publishing_circulation(doc, num),
+      size: publishing_size(doc, num),
+      image: image(doc, num)
+    }
   end
 
   def name(document, number)
@@ -36,9 +40,34 @@ class Scraper
     document.xpath("//table[#{number}][@class='table_gl']//tr[3][@class='td_center_color']//td/p").text
   end
 
-  def publishing(document, number)
+  def publishing_house(document, number)
     publishing = document.xpath("//table[#{number}][@class='table_gl']//td[@class='span_str']//p/text()").text
-    publishing.delete("\t\r").strip!.squeeze("\n").split("\n")
+    publishing.delete("\t\r").strip!.squeeze("\n").split("\n")[0]
+  end
+
+  def publishing_isbn(document, number)
+    publishing = document.xpath("//table[#{number}][@class='table_gl']//td[@class='span_str']//p/text()").text
+    publishing.delete("\t\r").strip!.squeeze("\n").split("\n")[1]
+  end
+
+  def publishing_pages(document, number)
+    publishing = document.xpath("//table[#{number}][@class='table_gl']//td[@class='span_str']//p/text()").text
+    publishing.delete("\t\r").strip!.squeeze("\n").split("\n")[2]
+  end
+
+  def publishing_circulation(document, number)
+    publishing = document.xpath("//table[#{number}][@class='table_gl']//td[@class='span_str']//p/text()").text
+    publishing.delete("\t\r").strip!.squeeze("\n").split("\n")[3]
+  end
+
+  def publishing_size(document, number)
+    publishing = document.xpath("//table[#{number}][@class='table_gl']//td[@class='span_str']//p/text()").text
+    publishing.delete("\t\r").strip!.squeeze("\n").split("\n")[4]
+  end
+
+  def publishing_language(document, number)
+    publishing = document.xpath("//table[#{number}][@class='table_gl']//td[@class='span_str']//p/text()").text
+    publishing.delete("\t\r").strip!.squeeze("\n").split("\n")[5]
   end
 
   def image(document, number)
@@ -47,16 +76,19 @@ class Scraper
 end
 
 class Books
-  attr_reader :books, :threads
   URL = 'http://loveread.ec/index_book.php?id_genre=1&p='.freeze
+  PAGE_COUNT = 1
+  PAGE_BOOK = 6
 
   def initialize
     @threads = []
     @books = []
+    @mutex = Mutex.new
   end
 
-  def get_information
-    (1..10).each do |page|
+  def information
+    PAGE_COUNT.times do |page|
+      page += 1
       @threads << Thread.new(page) do
         doc = Nokogiri::HTML(Curl::Easy.http_get("#{URL}#{page}").body_str)
         get_information_page(doc)
@@ -67,33 +99,17 @@ class Books
   end
 
   def get_information_page(doc)
-    (1..6).each do |num|
-      book = Scraper.new(doc, num).information
-      @books << Writer.new(book).write
+    PAGE_BOOK.times do |num|
+      num += 1
+      @mutex.synchronize do
+        book = Scraper.new(doc, num).information
+        @books << book
+      end
     end
     @books
   end
 end
 
-class Writer
-  def initialize(book)
-    @book = book
-    @mutex = Mutex.new
-  end
-
-  def write
-    @mutex.synchronize do
-      [
-        @book[0], @book[1], @book[2],
-        @book[4][0], @book[4][1],
-        @book[4][2], @book[4][3],
-        @book[4][4], @book[4][5],
-        @book[3], @book[5]
-      ]
-    end
-  end
-end
-
 name = Books.new
-inf = name.get_information
+inf = name.information
 print(inf)

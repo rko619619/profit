@@ -20,6 +20,7 @@ class Scraper
       pages: publishing_pages,
       circulation: publishing_circulation,
       size: publishing_size,
+      language: publishing_language,
       image: image
     }
   end

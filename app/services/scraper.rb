@@ -2,6 +2,7 @@ require 'curb'
 require 'nokogiri'
 require 'time'
 
+
 class Scraper
   attr_reader :doc, :num
   def initialize(doc, num)
@@ -12,7 +13,7 @@ class Scraper
   def information
     {
       name: name,
-      genre: genre,
+      category_id: genre,
       author: author,
       description: description,
       house: publishing_house,

@@ -34,7 +34,3 @@ class Download
     @books
   end
 end
-
-name = Download.new
-inf = name.information
-print(inf)

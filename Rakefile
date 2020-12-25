@@ -3,4 +3,8 @@
 
 require_relative "config/application"
 
+task :scraper do
+  ruby "app/services/download.rb"
+end
+
 Rails.application.load_tasks

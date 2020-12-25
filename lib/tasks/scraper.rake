@@ -6,7 +6,7 @@ namespace :scraper do
     inf.each do |attr|
       id = Category.find_by(name: attr[:category_id])
       book = Book.new(name: attr[:name], category_id: id)
-      book.save
+      puts(book.save)
     end
   end
 end

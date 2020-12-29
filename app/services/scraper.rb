@@ -32,8 +32,8 @@ class Scraper
 
   def category_id
     category = doc.xpath("//table[#{num}][@class='table_gl']//tr[@class='td_top_color']//td[1]//p").text
-    @id = ::Category.find_by(name: category)
-    @id.id
+    puts(category)
+    ::Category.find_by(name: category).id
   end
 
   def author

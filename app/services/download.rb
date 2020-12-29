@@ -4,7 +4,7 @@ require_relative 'scraper'
 
 class Download
   URL = 'http://loveread.ec/index_book.php?id_genre=1&p='.freeze
-  PAGE_COUNT =
+  PAGE_COUNT = 1
   PAGE_BOOK = 6
 
   def initialize
@@ -31,11 +31,11 @@ class Download
         @books << book
       end
     end
-    @books
+    puts(@books)
     write_base
   end
 
   def write_base
-    puts(::Book.import(@books))
+    ::Book.import(@books)
   end
 end

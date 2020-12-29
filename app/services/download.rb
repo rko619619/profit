@@ -31,11 +31,14 @@ class Download
         @books << book
       end
     end
-    puts(@books)
+    @books
     write_base
   end
 
   def write_base
+    @books.each do |znach|
+      znach[:category_id] = Category.find_by(name: znach[:category_id]).id
+    end
     Book.import(@books)
   end
 end

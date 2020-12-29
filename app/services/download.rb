@@ -36,6 +36,6 @@ class Download
   end
 
   def write_base
-    ::Book.import(@books)
+    Book.import(@books)
   end
 end

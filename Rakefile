@@ -6,12 +6,12 @@ namespace :scraper do
   desc "TODO"
   task scraper: :environment do
     name = Download.new
-    @books = name.information
-    @books.each do |book|
-      book[:category_id] = Category.find_by(name: book[:category_id]).id
+    inf = name.information
+    inf.each do |attr|
+      ids = Category.find_by(name: attr[:category_id]).id
+      book = Book.new(name: attr[:name], category_id: ids)
+      book.save
     end
-    @books
-    Book.import(@books)
   end
 end
 Rails.application.load_tasks

@@ -13,7 +13,7 @@ class Scraper
   def information
     {
       name: name,
-      category_id: genre,
+      category_id: category_id,
       author: author,
       description: description,
       house: publishing_house,
@@ -30,8 +30,9 @@ class Scraper
     doc.xpath("//table[#{num}][@class='table_gl']//div[@class='td_top_text']").text
   end
 
-  def genre
-    doc.xpath("//table[#{num}][@class='table_gl']//tr[@class='td_top_color']//td[1]//p").text
+  def category_id
+    category_id = doc.xpath("//table[#{num}][@class='table_gl']//tr[@class='td_top_color']//td[1]//p").text
+    ::Category.find_by(name: category_id).id
   end
 
   def author

@@ -2,5 +2,13 @@
 # for example lib/tasks/capistrano.rake, and they will automatically be available to Rake.
 
 require_relative "config/application"
+require_relative 'app/services/download'
+namespace :scraper do
+  desc "TODO"
+  task :scraper do
+    name = Download.new
+    name.information
+  end
+end
 
 Rails.application.load_tasks

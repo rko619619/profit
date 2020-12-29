@@ -11,7 +11,6 @@ class CreateBooks < ActiveRecord::Migration[6.1]
       t.text :size
       t.text :language
       t.text :image
-      t.timestamps
       t.index :name
     end
   end

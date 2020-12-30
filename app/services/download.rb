@@ -31,6 +31,10 @@ class Download
         @books << book
       end
     end
-    @books
+    write_base
+  end
+
+  def write_base
+    Book.import(@books)
   end
 end

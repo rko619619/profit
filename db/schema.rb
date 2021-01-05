@@ -23,8 +23,6 @@ ActiveRecord::Schema.define(version: 2020_12_24_231641) do
     t.text "size"
     t.text "language"
     t.text "image"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
     t.bigint "category_id", null: false
     t.index ["category_id"], name: "index_books_on_category_id"
     t.index ["name"], name: "index_books_on_name"
@@ -32,8 +30,6 @@ ActiveRecord::Schema.define(version: 2020_12_24_231641) do
 
   create_table "categories", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
   end
 
   add_foreign_key "books", "categories"

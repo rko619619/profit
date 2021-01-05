@@ -1,9 +1,12 @@
+# frozen_string_literal: true
+
 require 'curb'
 require 'nokogiri'
 require 'time'
 
 class Scraper
   attr_reader :doc, :num
+
   def initialize(doc, num)
     @doc = doc
     @num = num
@@ -12,7 +15,7 @@ class Scraper
   def information
     {
       name: name,
-      genre: genre,
+      category_id: category_id,
       author: author,
       description: description,
       house: publishing_house,
@@ -29,8 +32,9 @@ class Scraper
     doc.xpath("//table[#{num}][@class='table_gl']//div[@class='td_top_text']").text
   end
 
-  def genre
-    doc.xpath("//table[#{num}][@class='table_gl']//tr[@class='td_top_color']//td[1]//p").text
+  def category_id
+    category = doc.xpath("//table[#{num}][@class='table_gl']//tr[@class='td_top_color']//td[1]//p").text
+    Category.find_by(name: category).id
   end
 
   def author
@@ -72,43 +76,6 @@ class Scraper
   end
 
   def image
-    'http://loveread.ec/' + doc.xpath("//table[#{num}][@class='table_gl']//img[@class='margin-right_8']").attr('src')
+    "http://loveread.ec/#{doc.xpath("//table[#{num}][@class='table_gl']//img[@class='margin-right_8']").attr('src')}"
   end
 end
-
-class Books
-  URL = 'http://loveread.ec/index_book.php?id_genre=1&p='.freeze
-  PAGE_COUNT = 1570
-  PAGE_BOOK = 6
-
-  def initialize
-    @threads = []
-    @books = []
-    @mutex = Mutex.new
-  end
-
-  def information
-    (1..PAGE_COUNT).each do |page|
-      @threads << Thread.new(page) do
-        doc = Nokogiri::HTML(Curl::Easy.http_get("#{URL}#{page}").body_str)
-        get_information_page(doc)
-      end
-      @threads.each(&:join)
-    end
-    @books
-  end
-
-  def get_information_page(doc)
-    (1..PAGE_BOOK).each do |num|
-      book = Scraper.new(doc, num).information
-      @mutex.synchronize do
-        @books << book
-      end
-    end
-    @books
-  end
-end
-
-name = Books.new
-inf = name.information
-print(inf)

@@ -6,7 +6,7 @@ require_relative 'scraper'
 
 class Download
   URL = 'http://loveread.ec/index_book.php?id_genre=1&p='
-  PAGE_COUNT = 100
+  PAGE_COUNT = 13
   PAGE_BOOK = 6
 
   def initialize

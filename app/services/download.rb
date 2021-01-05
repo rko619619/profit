@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 require 'curb'
 require 'nokogiri'
 require_relative 'scraper'
 
 class Download
-  URL = 'http://loveread.ec/index_book.php?id_genre=1&p='.freeze
+  URL = 'http://loveread.ec/index_book.php?id_genre=1&p='
   PAGE_COUNT = 1
   PAGE_BOOK = 6
 

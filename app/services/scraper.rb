@@ -1,9 +1,12 @@
+# frozen_string_literal: true
+
 require 'curb'
 require 'nokogiri'
 require 'time'
 
 class Scraper
   attr_reader :doc, :num
+
   def initialize(doc, num)
     @doc = doc
     @num = num
@@ -73,7 +76,6 @@ class Scraper
   end
 
   def image
-    'http://loveread.ec/' + doc.xpath("//table[#{num}][@class='table_gl']//img[@class='margin-right_8']").attr('src')
+    "http://loveread.ec/#{doc.xpath("//table[#{num}][@class='table_gl']//img[@class='margin-right_8']").attr('src')}"
   end
 end
-

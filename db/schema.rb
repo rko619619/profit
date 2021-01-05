@@ -13,9 +13,9 @@
 ActiveRecord::Schema.define(version: 2020_12_24_231641) do
 
   create_table "books", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.string "name"
-    t.string "author"
-    t.text "description"
+    t.string "name", null: false
+    t.string "author", null: false
+    t.text "description", null: false
     t.text "house"
     t.text "isbn"
     t.text "pages"
@@ -25,11 +25,12 @@ ActiveRecord::Schema.define(version: 2020_12_24_231641) do
     t.text "image"
     t.bigint "category_id", null: false
     t.index ["category_id"], name: "index_books_on_category_id"
-    t.index ["name"], name: "index_books_on_name"
+    t.index ["name", "author"], name: "index_books_on_name_and_author", unique: true
   end
 
   create_table "categories", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.string "name"
+    t.string "name", null: false
+    t.index ["name"], name: "index_categories_on_name", unique: true
   end
 
   add_foreign_key "books", "categories"

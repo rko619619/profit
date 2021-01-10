@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 namespace :scraper do
-  desc "TODO"
+  desc 'TODO'
   task scraper: :environment do
     name = Download.new
     name.information

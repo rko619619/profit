@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateBooks < ActiveRecord::Migration[6.1]
   def change
     create_table :books do |t|
@@ -11,7 +13,7 @@ class CreateBooks < ActiveRecord::Migration[6.1]
       t.text :size
       t.text :language
       t.text :image
-      t.index [:name, :author], unique: true
+      t.index %i[name author], unique: true
     end
   end
 end

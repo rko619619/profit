@@ -1,0 +1,11 @@
+<article class="book">
+  <section class="book-head">
+    <h2><%=  @book.name %></h2>
+    <small><%=@category.name%></small>
+  </section>
+  <section class="book-body">
+      <%= image_tag @book.image, class: "img-show" %>
+      <%= @book.description %>
+  </section>
+</article>
+

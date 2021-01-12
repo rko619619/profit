@@ -1,9 +1,0 @@
-$("#books").append('<%= j render @books %>')
-$('.spinner').remove();
-
-$(window).data('alaxready', true)
-<% if @books.next_page %>
-  $('.pagination').replaceWith('<%= j will_paginate @books %>');
-<% else %>
-  $('.pagination').remove();
-<% end %>

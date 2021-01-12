@@ -1,16 +1,17 @@
 class BooksController < ApplicationController
   def index
-    @books = Book.paginate(page: params[:page], per_page: 6)
+    @pagy, @books = pagy(Book.all, items: 10)
 
     respond_to do |format|
       format.html
-      format.js
+      format.json{
+        render json: { entries: render_to_string(partial: "book" , formats: [:html]), pagination: view_context.pagy_nav(@pagy)}
+      }
     end
 
   end
 
   def show
     @book = Book.find(params[:id])
-    @category = Category.find(@book.category_id)
   end
 end

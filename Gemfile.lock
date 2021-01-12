@@ -118,6 +118,7 @@ GEM
     nio4r (2.5.4)
     nokogiri (1.10.10-x64-mingw32)
       mini_portile2 (~> 2.4.0)
+    pagy (3.1.0)
     popper_js (1.16.0)
     public_suffix (4.0.6)
     puma (5.1.1)
@@ -206,7 +207,6 @@ GEM
     websocket-driver (0.7.3)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
-    will_paginate (3.1.8)
     xpath (3.2.0)
       nokogiri (~> 1.8)
     zeitwerk (2.4.2)
@@ -225,6 +225,7 @@ DEPENDENCIES
   jquery-rails
   mysql2
   nokogiri
+  pagy (~> 3.1.0)
   puma (~> 5.0)
   rack-mini-profiler (~> 2.0)
   rails (~> 6.1.0)
@@ -236,7 +237,6 @@ DEPENDENCIES
   web-console (>= 4.1.0)
   webdrivers
   webpacker (~> 5.0)
-  will_paginate (~> 3.1.0)
 
 RUBY VERSION
    ruby 2.6.6p146

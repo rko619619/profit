@@ -1,0 +1,13 @@
+<% @books.each do |book| %>
+<article class="book">
+  <section class="book-head">
+    <h1><%= link_to book.name, book_path(book) %></h1>
+    <h4><%= book.author %></h4>
+    <i><h6><%=book.category.name%></h6></i>
+  </section>
+  <section class="book-summary clearfix">
+      <%= image_tag book.image, class: "img-show thumb" %>
+      <%= book.description %>
+  </section>
+</article>
+<% end %>

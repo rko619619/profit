@@ -1,0 +1,14 @@
+<h1>Книги</h1>
+
+<div data-controller="infinite-scroll">
+  <div data-infinite-scroll-target="entries">
+    <%= render "book" %>
+  </div>
+
+  <div data-infinite-scroll-target="pagination">
+    <%== pagy_bootstrap_nav(@pagy) %>
+  </div>
+</div>
+
+
+

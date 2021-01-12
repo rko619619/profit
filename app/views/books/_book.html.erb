@@ -1,7 +1,8 @@
 <article class="book">
   <section class="book-head">
     <h1><%= link_to book.name, book_path(book) %></h1>
-    <h4><%=Category.find(book.category_id).name%></h4>
+    <h4><%= book.author %></h4>
+    <i><h6><%=Category.find(book.category_id).name%></h6></i>
   </section>
   <section class="book-summary clearfix">
       <%= image_tag book.image, class: "img-show thumb" %>

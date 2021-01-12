@@ -1,6 +1,12 @@
 class BooksController < ApplicationController
   def index
-    @books = Book.all
+    @books = Book.paginate(page: params[:page], per_page: 6)
+
+    respond_to do |format|
+      format.html
+      format.js
+    end
+
   end
 
   def show

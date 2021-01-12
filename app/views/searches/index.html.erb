@@ -1,0 +1,11 @@
+<h1>Книги</h1>
+<% if @books.present?  %>
+<div data-controller="infinite-scroll">
+  <div data-infinite-scroll-target="entries">
+    <%= render "book" %>
+  </div>
+</div>
+<% else %>
+  <h1>Нет книг</h1>
+<% end %>
+

@@ -68,6 +68,9 @@ GEM
     autoprefixer-rails (10.2.0.0)
       execjs
     bindex (0.8.1)
+    bonsai-elasticsearch-rails (7.0.1)
+      elasticsearch-model (< 8)
+      elasticsearch-rails (< 8)
     bootsnap (1.5.1)
       msgpack (~> 1.0)
     bootstrap (4.5.3)
@@ -93,6 +96,11 @@ GEM
       elasticsearch-transport (= 7.8.0)
     elasticsearch-api (7.8.0)
       multi_json
+    elasticsearch-model (7.1.1)
+      activesupport (> 3)
+      elasticsearch (> 1)
+      hashie
+    elasticsearch-rails (7.1.1)
     elasticsearch-transport (7.8.0)
       faraday (~> 1)
       multi_json
@@ -233,11 +241,14 @@ PLATFORMS
 
 DEPENDENCIES
   activerecord-import
+  bonsai-elasticsearch-rails
   bootsnap (>= 1.4.4)
   bootstrap (~> 4.5)
   byebug
   capybara (>= 3.26)
   curb
+  elasticsearch-model
+  elasticsearch-rails
   jbuilder (~> 2.7)
   jquery-rails
   mysql2

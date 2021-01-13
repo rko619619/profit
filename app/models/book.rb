@@ -2,4 +2,5 @@
 
 class Book < ApplicationRecord
   belongs_to :category
+  searchkick
 end

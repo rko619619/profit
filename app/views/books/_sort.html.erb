@@ -1,0 +1,11 @@
+<%= form_with(url: books_path, method: :get) do |f| %>
+  <%= f.select :sort, options_for_select({ "" => "", "По названию" => "name", "По автору" => "author"},params[:sort]),
+               { selected: params[:sort]},
+               { class: 'custom-select opt-sel' } %>
+  <%= f.select :direction, options_for_select({ "" => "", "А-я" => "asc", "я-А" => "desc"}, params[:direction]),
+               {},
+               { class: 'custom-select dir-sel'}%>
+  <div>
+    <%= f.submit 'Сортировать', class: 'btn btn-dark' %>
+  </div>
+<% end %>

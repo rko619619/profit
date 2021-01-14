@@ -1,0 +1,12 @@
+<div class="submenu">
+  <h2>Жанры:</h2>
+  <ul class="nav list-group">
+    <% categories.each do |category| %>
+      <li>
+        <div class="nav-link list-group-item-action">
+          <%= link_to category.name, books_path(category: category.name) %>
+        </div>
+      </li>
+    <% end %>
+  </ul>
+</div>

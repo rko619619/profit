@@ -1,14 +1,14 @@
 <div data-controller="infinite-scroll">
-  <div class="row">
     <% if @books.present?  %>
-      <h1>Результаты:</h1>
-      <div data-controller="infinite-scroll">
-        <div data-infinite-scroll-target="entries">
-          <%= render "book" %>
+      <div class="row">
+        <h1>Результаты:</h1>
+        <div data-controller="infinite-scroll">
+          <div data-infinite-scroll-target="entries">
+            <%= render "book" %>
+          </div>
         </div>
       </div>
     <% else %>
       <i><h3>К сожалению, нет таких книг :(</h3></i>
     <% end %>
-  </div>
 </div>

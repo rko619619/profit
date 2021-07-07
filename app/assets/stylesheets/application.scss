@@ -17,3 +17,20 @@
 .form-inline{
   float: right;
 }
+
+.row{
+  margin-left: 30px;
+}
+.col-md-2{
+  margin-top: 10px;
+}
+.custom-select{
+  margin-top: 10px;
+}
+.btn-dark{
+  margin-top: 10px;
+  position: relative;
+  left: 50%;
+  transform: translate(-50%, 0);
+}
+

@@ -9,8 +9,8 @@
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
+
   <body>
-  <div class="container">
     <nav class="navbar navbar-light bg-light">
       <a class="navbar-brand" href="<%= root_path %>">Главная</a>
       <%= form_tag search_path, method: :get do %>
@@ -19,9 +19,6 @@
         </div>
       <% end %>
     </nav>
-  </div>
-  <div class="container main">
-    <%= yield %>
-  </div>
+      <%= yield %>
   </body>
 </html>

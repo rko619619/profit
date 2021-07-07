@@ -2,6 +2,6 @@
 
 class SearchesController < ApplicationController
   def index
-    @books = Book.search(params[:query], fields: %i[name author isbn])
+    @books = Book.search(params[:query], fields: %i[name author])
   end
 end
